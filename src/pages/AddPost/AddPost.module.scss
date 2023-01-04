@@ -1,0 +1,120 @@
+.title {
+  input {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+
+  div {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+}
+
+.art {
+  input {
+    font-size: 30px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+
+  div {
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+}
+
+.img {
+  height: 450px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 10px;
+
+  @media (max-width: 720px) {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 0;
+    height: 350px;
+  }
+}
+
+.image {
+  max-width: 300px;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%),
+    0px 1px 3px 0px rgb(0 0 0 / 12%);
+
+  @media (max-width: 700px) {
+    max-width: 230px;
+  }
+}
+
+.tags {
+  margin: 15px 0;
+  input {
+    font-size: 18px;
+  }
+}
+
+.imgBtn {
+  max-width: 320px;
+  height: 410px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #fff;
+  margin-right: 20px;
+
+  @media (max-width: 700px) {
+    max-width: 230px;
+    height: 350px;
+  }
+}
+
+.editor {
+  margin: 30px -8px;
+
+  :global {
+    .cm-s-easymde {
+      border: 0;
+      font-size: 22px;
+    }
+    .editor-toolbar {
+      border: 0;
+      background-color: rgb(0 0 0 / 2%);
+    }
+  }
+
+  &Dark {
+    :global {
+      .editor-toolbar {
+        button {
+          i {
+            color: #fff;
+          }
+        }
+      }
+      .CodeMirror {
+        background: transparent;
+        color: #fff;
+        caret-color: #fff;
+      }
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+
+  button {
+    margin-right: 15px;
+  }
+}
