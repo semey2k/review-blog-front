@@ -34,10 +34,7 @@ export const Post = ({
   userRating,
   nameOfArt,
 }) => {
-
   const { mode } = React.useContext(ColorModeContext);
-
-
 
   if (isLoading) {
     return <PostSkeleton isFullPost={isFullPost} />;
@@ -55,7 +52,13 @@ export const Post = ({
       className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       <Grid container spacing={0}>
         {imageUrl && (
-          <Grid item xs={12} sm={ isFullPost ? 5 : 3.5} md={isFullPost ? 4 : false} lg={isFullPost ? 3.5 : false}  className={clsx(styles.img, { [styles.imgFull]: isFullPost })}>
+          <Grid
+            item
+            xs={12}
+            sm={isFullPost ? 5 : 3.5}
+            md={isFullPost ? 4 : false}
+            lg={isFullPost ? 3.5 : false}
+            className={clsx(styles.img, { [styles.imgFull]: isFullPost })}>
             <Image
               className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
               cloudName="dw0rsewtk"
@@ -68,7 +71,13 @@ export const Post = ({
             </Image>
           </Grid>
         )}
-        <Grid item xs={12}  sm={isFullPost ? 7 : 8.5} md={isFullPost ? 8 : false} lg={isFullPost ? 8.5 : false} className={styles.wrapper}>
+        <Grid
+          item
+          xs={12}
+          sm={isFullPost ? 7 : 8.5}
+          md={isFullPost ? 8 : false}
+          lg={isFullPost ? 8.5 : false}
+          className={styles.wrapper}>
           <Box>
             <UserInfo {...user} additionalText={createdAt} />
             <div className={styles.rating}>
@@ -146,11 +155,7 @@ export const Post = ({
               <ul id={styles.tags}>
                 {tags.map((tag, index) => (
                   <li key={index} className={styles.tag}>
-                    <Link
-                      style={{ color: '#fff', textDecoration: 'none' }}
-                      to={`/posts/tags/${tag}`}>
-                      #{tag}
-                    </Link>
+                    <p>#{tag}</p>
                   </li>
                 ))}
               </ul>
