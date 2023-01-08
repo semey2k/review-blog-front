@@ -5,9 +5,22 @@
     font-size: 22px;
     line-height: 36px;
 
-    @media (max-width: 600px){
+    @media (max-width: 600px) {
       font-size: 18px;
       text-align: justify;
+    }
+  }
+
+  ul, ol {
+    li {
+      font-size: 22px;
+      line-height: 36px;
+      margin-bottom: 10px;
+
+      @media (max-width: 600px) {
+        font-size: 18px;
+        text-align: justify;
+      }
     }
   }
 }

@@ -1,12 +1,11 @@
 import React from 'react';
 import styles from './UserInfo.module.scss';
 import Avatar from '@mui/material/Avatar';
-import { IconButton } from '@mui/material';
 import Favorite from '@mui/icons-material/Favorite';
-import { CloudinaryContext, Image, Transformation } from 'cloudinary-react';
+import { Image, Transformation } from 'cloudinary-react';
 
 export const UserInfo = ({ post, avatarUrl, fullName, additionalText, commentsText }) => {
-  console.log(avatarUrl);
+
   return (
     <div className={styles.root}>
       {avatarUrl ? (

@@ -6,10 +6,12 @@ import Button from '@mui/material/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { Navigate } from 'react-router-dom';
-
 import styles from './Login.module.scss';
-import { fetchAuth, fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
-import MultiLingualContent from '../../hooks/context';
+import { fetchAuth, fetchAuthGoogle, fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
+import MultiLingualContent, { ColorModeContext } from '../../hooks/context';
+import { LoginSocialGoogle, LoginSocialFacebook } from 'reactjs-social-login';
+
+import { FacebookLoginButton, GoogleLoginButton } from 'react-social-login-buttons';
 
 export const Login = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -17,7 +19,6 @@ export const Login = () => {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -26,6 +27,27 @@ export const Login = () => {
     },
     mode: 'onChange',
   });
+
+  const {mode} = React.useContext(ColorModeContext)
+
+  const loginSocials = async (data) => {
+    const value = {
+      email: data.email,
+      avatarUrl: data.picture.data ? data.picture.data.url : data.picture,
+      fullName: data.name,
+    };
+    const { payload } = await dispatch(fetchAuthGoogle(value));
+
+    if (!payload) {
+      return alert('Не удалось авторизоваться');
+    }
+    if ('token' in payload) {
+      window.localStorage.setItem('token', payload.token);
+    } else {
+      alert('Не удалось авторизоваться');
+    }
+    dispatch(fetchAuthMe());
+  };
 
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
@@ -74,6 +96,27 @@ export const Login = () => {
           <MultiLingualContent contentID={'signIn'}></MultiLingualContent>
         </Button>
       </form>
+      <p className={styles.divider} style={{borderBottom: mode === 'dark' ? '1px solid #fff' : '1px solid rgba(0, 0, 0, 0.12)'}}><span style={{backgroundColor: mode === 'dark' ? '#001e3c' : '#fff'}}>Or</span></p>
+      <LoginSocialFacebook
+        appId={process.env.REACT_APP_CLIENT_ID || ''}
+        onResolve={({ response, data }) => {
+          loginSocials(data);
+        }}
+        onReject={(err) => {
+          console.log(err);
+        }}>
+        <FacebookLoginButton style={{width: '100%', margin: '10px 0'}} />
+      </LoginSocialFacebook>
+      <LoginSocialGoogle
+        client_id={process.env.REACT_APP_CLIENT_ID}
+        onResolve={({ response, data }) => {
+          loginSocials(data);
+        }}
+        onReject={(err) => {
+          console.log(err);
+        }}>
+        <GoogleLoginButton style={{width: '100%', margin: '10px 0'}} />
+      </LoginSocialGoogle>
     </Paper>
   );
 };

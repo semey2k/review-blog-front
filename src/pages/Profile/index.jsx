@@ -1,23 +1,15 @@
 import * as React from 'react';
-
-import { DataGrid } from '@mui/x-data-grid';
+import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   fetchRemoveUsers,
-//   fetchBlockUsers,
-//   fetchUsers,
-//   fetchUnblockUsers,
-// } from '../../redux/slices/user';
-// import { selectIsAuth, authMe, logout } from '../../redux/slices/auth';
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+
+import { fetchProfilePosts, fetchRemovePost } from '../../redux/slices/posts';
+import MultiLingualContent, { ColorModeContext } from '../../hooks/context';
 
 import Button from '@mui/material/Button';
+import { DataGrid } from '@mui/x-data-grid';
+import { Stack } from '@mui/material';
 
 import styles from './Profile.module.scss';
-import { fetchProfilePosts, fetchRemovePost } from '../../redux/slices/posts';
-import { Checkbox, Paper, Stack, Typography } from '@mui/material';
-import MultiLingualContent, { ColorModeContext } from '../../hooks/context';
-import { useContext } from 'react';
 
 const columns = [
   {
@@ -54,7 +46,8 @@ const columns = [
     ),
   },
   {
-    field: <MultiLingualContent contentID={'edit'}></MultiLingualContent>,
+    field: 'edit',
+    headerName: <MultiLingualContent contentID={'edit'}></MultiLingualContent>,
     width: 150,
     renderCell: (cellValues) => {
       return (
@@ -78,7 +71,7 @@ export const Profile = () => {
   const { posts } = useSelector((state) => state.posts);
   const [selectedRows, setSelectedRows] = React.useState([]);
 
-  const {mode} = useContext(ColorModeContext)
+  const {mode} = React.useContext(ColorModeContext)
 
   //   const isAuth = useSelector(selectIsAuth);
   //   const isAuthMe = useSelector(authMe);

@@ -1,7 +1,5 @@
 import React from 'react';
-import { Hidden, Paper, Tooltip, Typography } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Favorite from '@mui/icons-material/Favorite';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';

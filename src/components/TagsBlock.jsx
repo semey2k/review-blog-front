@@ -9,7 +9,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Skeleton from '@mui/material/Skeleton';
 
 import { SideBlock } from './SideBlock';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import MultiLingualContent, { ColorModeContext } from '../hooks/context';
 
 export const TagsBlock = ({ items, isLoading }) => {

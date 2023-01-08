@@ -1,5 +1,4 @@
 import React from 'react';
-import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
 
 import styles from './Post.module.scss';
@@ -10,7 +9,7 @@ import clsx from 'clsx';
 export const PostSkeleton = ({ isFullPost }) => {
   const { mode } = React.useContext(ColorModeContext);
 
-  console.log(isFullPost);
+
 
   return (
     <Grid

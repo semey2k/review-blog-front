@@ -5,10 +5,7 @@ import styles from './AddComment.module.scss';
 import axios from '../../axios';
 
 import TextField from '@mui/material/TextField';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import { fetchAuthMe } from '../../redux/slices/auth';
-import { useSelector } from 'react-redux';
 import MultiLingualContent from '../../hooks/context';
 
 export const Index = ({avatarUrl}) => {

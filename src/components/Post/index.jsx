@@ -1,26 +1,19 @@
 import React, { useContext } from 'react';
 import clsx from 'clsx';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Clear';
-import EditIcon from '@mui/icons-material/Edit';
-import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { Link } from 'react-router-dom';
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
-import { useDispatch } from 'react-redux';
-import { fetchRemovePost } from '../../redux/slices/posts';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import GroupsIcon from '@mui/icons-material/Groups';
 import Divider from '@mui/material/Divider';
 import MultiLingualContent, { ColorModeContext } from '../../hooks/context';
-import { Box, Grid, Hidden, Paper, Rating, Tooltip, Typography } from '@mui/material';
+import { Box, Grid, Rating, Tooltip, Typography } from '@mui/material';
 import Favorite from '@mui/icons-material/Favorite';
 import { FullPostContent } from '../FullPostContent';
-import { CloudinaryContext, Image, Transformation } from 'cloudinary-react';
+import { Image, Transformation } from 'cloudinary-react';
 
 export const Post = ({
   _id,
@@ -41,9 +34,10 @@ export const Post = ({
   userRating,
   nameOfArt,
 }) => {
-  // const [show, setShow] = React.useState(false);
 
   const { mode } = React.useContext(ColorModeContext);
+
+
 
   if (isLoading) {
     return <PostSkeleton isFullPost={isFullPost} />;
@@ -125,7 +119,7 @@ export const Post = ({
                 {userRating && (
                   <Rating
                     name="simple-controlled"
-                    value={userRating > 0 ? userRating.toFixed(1) : 0}
+                    value={userRating > 0 ? +userRating.toFixed(1) : 0}
                     readOnly
                     precision={0.5}
                     className={styles.star_rating}

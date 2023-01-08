@@ -1,28 +1,16 @@
 import * as React from 'react';
-
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
-// import {
-//   fetchRemoveUsers,
-//   fetchBlockUsers,
-//   fetchUsers,
-//   fetchUnblockUsers,
-// } from '../../redux/slices/user';
-// import { selectIsAuth, authMe, logout } from '../../redux/slices/auth';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-
+import { Link  } from 'react-router-dom';
 import Button from '@mui/material/Button';
-
 import styles from './AdminPanel.module.scss';
-import { fetchProfilePosts, fetchRemovePost } from '../../redux/slices/posts';
-import { Paper, Stack, Typography } from '@mui/material';
+import {Stack } from '@mui/material';
 import {
   fetchRemoveUsers,
   fetchStatusAdmin,
   fetchStatusUser,
   fetchUsers,
 } from '../../redux/slices/users';
-import axios from '../../axios';
 import MultiLingualContent, { ColorModeContext } from '../../hooks/context';
 
 const columns = [
@@ -59,9 +47,6 @@ export const AdminPanel = () => {
   const [selectedRows, setSelectedRows] = React.useState([]);
   const users = useSelector((state) => state.user.users);
   const {mode} = React.useContext(ColorModeContext)
-
-  //   const isAuth = useSelector(selectIsAuth);
-  //   const isAuthMe = useSelector(authMe);
 
   React.useEffect(() => {
     dispatch(fetchUsers());

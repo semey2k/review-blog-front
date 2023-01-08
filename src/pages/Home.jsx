@@ -1,47 +1,52 @@
-import React, { useContext } from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Grid from '@mui/material/Grid';
+import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import styles from './home.module.scss';
 
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { fetchSearch, fetchCategory, fetchPostsByTags, fetchTags } from '../redux/slices/posts';
-import MultiLingualContent, { ColorModeContext, LanguageContext } from '../hooks/context';
-import { Box } from '@mui/material';
-import { selectIsAuth } from '../redux/slices/auth';
+import { ColorModeContext, LanguageContext } from '../hooks/context';
+
+import { Box, Pagination } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import styles from './home.module.scss';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector((state) => state.posts);
-  const userData = useSelector((state) => state.auth.data);
   const [categories, setCategories] = React.useState('New');
   const { tagsId, query } = useParams();
   const { mode } = useContext(ColorModeContext);
   const { getLocaleLanguage, language } = useContext(LanguageContext);
-  const isAuth = useSelector(selectIsAuth);
+  const [skip, setSkip] = React.useState(1);
+
 
   const catEn = ['New', 'Popular', 'Games', 'Cinema', 'Books'];
   const catRu = ['Новое', 'Популярное', 'Игры', 'Фильмы', 'Книги'];
 
+  const changeCategory = (id) => {
+    setCategories(catEn[id])
+    setSkip(1)
+  }
+
+
   React.useEffect(() => {
     if (!query && !tagsId) {
-      dispatch(fetchCategory(categories));
+      dispatch(fetchCategory({ categories, skip }));
       dispatch(fetchTags(categories));
     } else if (query) {
       dispatch(fetchSearch(query));
     } else if (tagsId) {
       dispatch(fetchPostsByTags(tagsId));
     }
-  }, [categories, tagsId, query]);
+  }, [categories, tagsId, query, skip]);
+
+  const handleChange = (event, value) => {
+    setSkip(value);
+  };
 
   const isPostsLoading = posts.status === 'loading';
   const isTagsLoading = tags.status === 'loading';
-
-  console.log(posts)
-
 
   return (
     <>
@@ -56,7 +61,7 @@ export const Home = () => {
               (categoryName, id) => (
                 <li
                   key={id}
-                  onClick={() => setCategories(catEn[id])}
+                  onClick={() => changeCategory(id)}
                   // color='primary'
                   style={
                     catEn[id] === categories
@@ -74,38 +79,65 @@ export const Home = () => {
           </ul>
         </div>
       )}
-      <Grid container spacing={{xs: 0, lg: 4}}>
-        <Grid xs={12} md={8} item>
-          {(isPostsLoading ? [...Array(5)] : posts.items).map((el, index) =>
-            isPostsLoading ? (
-              <Post key={index} isLoading={true} />
-            ) : (
-              <Post
-                key={index}
-                _id={el._id}
-                title={el.title}
-                imageUrl={el.imageUrl ? `${el.imageUrl}` : ''}
-                user={el.user}
-                createdAt={el.createdAt}
-                likes={el.likes.length}
-                commentsCount={el.comments.length}
-                tags={el.tags}
-                isLoading={isPostsLoading}
-                authorRating={el.userRating}
-                nameOfArt={el.art}
-                userRating={
-                  el.rate?.map((el) => el.rate).length > 0
-                    ? el.rate.map((el) => Number(el.rate)).reduce((a, b) => a + b) / el.rate.length
-                    : 'Нет оценок'
-                }
-              />
-            ),
-          )}
+      {posts?.items.length === 0 && !isPostsLoading ? (
+        <Box
+          sx={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}>
+            <span style={{ fontSize: '44px' }}>&#128531;</span>
+            <p style={{ textAlign: 'center', fontSize: '44px', margin: '0' }}>Ничего не найдено</p>
+          </div>
+        </Box>
+      ) : (
+        <Grid container spacing={{ xs: 0, lg: 4 }}>
+          <Grid xs={12} md={8} item>
+            {(isPostsLoading ? [...Array(5)] : posts.items.posts)?.map((el, index) =>
+              isPostsLoading ? (
+                <Post key={index} isLoading={true} />
+              ) : (
+                <Post
+                  key={index}
+                  _id={el._id}
+                  title={el.title}
+                  imageUrl={el.imageUrl ? `${el.imageUrl}` : ''}
+                  user={el.user}
+                  createdAt={el.createdAt}
+                  likes={el.likes.length}
+                  commentsCount={el.comments.length}
+                  tags={el.tags}
+                  isLoading={isPostsLoading}
+                  authorRating={el.userRating}
+                  nameOfArt={el.art}
+                  userRating={
+                    el.rate?.map((el) => el.rate).length > 0
+                      ? el.rate.map((el) => Number(el.rate)).reduce((a, b) => a + b) /
+                        el.rate.length
+                      : 'Нет оценок'
+                  }
+                />
+              ),
+            )}
+          </Grid>
+          <Grid className={styles.tags_block} xs={3} lg={4} item>
+            {!tagsId && !query && <TagsBlock items={tags.items} isLoading={isTagsLoading} />}
+          </Grid>
         </Grid>
-        <Grid className={styles.tags_block} xs={3} lg={4} item>
-          {!tagsId && !query && <TagsBlock  items={tags.items} isLoading={isTagsLoading} />}
-        </Grid>
-      </Grid>
+      )}
+      {posts.items?.total > 1 && (posts.items?.posts.length >= 10 || skip > 1) && (
+        <Pagination
+          count={posts.items.total}
+          page={skip}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+          sx={{paddingBottom: '20px'}}
+        />
+      )}
     </>
   );
 };

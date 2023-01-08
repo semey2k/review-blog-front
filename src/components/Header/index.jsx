@@ -6,39 +6,28 @@ import { logout, selectIsAuth } from '../../redux/slices/auth';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-// import { useTranslation } from 'react-i18next';
-// import useLocalStorage from '../../hooks/use-localStorage';
-// import i18n from '../../i18n';
-import Popover from '@mui/material/Popover';
 import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import {
   Avatar,
-  Badge,
   Box,
   Divider,
   Drawer,
   FormControl,
   FormControlLabel,
-  FormGroup,
   InputAdornment,
-  Menu,
   MenuItem,
   Paper,
   Select,
-  Typography,
 } from '@mui/material';
 import { useContext } from 'react';
 import MultiLingualContent, {
   ColorModeContext,
   LanguageContext,
-  useColorMode,
 } from '../../hooks/context';
-import axios from '../../axios';
-import { fetchLikes } from '../../redux/slices/posts';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+
 import { styled } from '@mui/material/styles';
 import Favorite from '@mui/icons-material/Favorite';
 import Switch from '@mui/material/Switch';
@@ -104,12 +93,11 @@ export const Header = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [state, setState] = React.useState(false);
 
-  //function that is being called every time the drawer should open or close, the keys tab and shift are excluded so the user can focus between the elements with the keys
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }
-    //changes the function state according to the value of open
+
     setState(open);
   };
 
@@ -151,6 +139,8 @@ export const Header = () => {
   };
 
   const open = Boolean(anchorEl);
+
+
 
   return (
     <Paper

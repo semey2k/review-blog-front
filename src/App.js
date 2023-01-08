@@ -16,6 +16,7 @@ function App() {
 
   const [language, setLanguage] = React.useState('ru');
 
+
   const toggleLanguage = () => {
     // setLanguage((language) => if(language === 'english'){
     //   'russian'

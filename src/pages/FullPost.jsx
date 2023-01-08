@@ -1,20 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+
 import { Post } from '../components/Post';
 import { Index } from '../components/AddComment';
 import { CommentsBlock } from '../components/CommentsBlock';
 import axios from '../axios';
-import ReactMarkdown from 'react-markdown';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Button from '@mui/material/Button';
-import { useSelector } from 'react-redux';
-import { IconButton, Rating, Typography } from '@mui/material';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import MultiLingualContent from '../hooks/context';
+
+import Button from '@mui/material/Button';
+import { Rating } from '@mui/material';
+
 export const FullPost = () => {
   const [comments, setComments] = React.useState('');
   const [data, setData] = React.useState('');
@@ -22,8 +19,7 @@ export const FullPost = () => {
   const { id } = useParams();
   const [rating, setRating] = React.useState(0);
   const [show, setShow] = React.useState(false);
-  const userId = useSelector((action) => action.auth.data);
-  // const [likes, setLikes] = React.useState(0);
+  const userId = useSelector((state) => state.auth.data);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -53,9 +49,6 @@ export const FullPost = () => {
       ? data.rate.map((el) => Number(el.rate)).reduce((a, b) => a + b) / data.rate.length
       : 'Нет оценок';
 
-  // console.log(data.rate?.map((el) => el.rate).length > 0 ? (data.rate.map((el) => Number(el.rate)).reduce((a, b) => a + b))/data.rate.length : 0 )
-
-  // console.log((avgRating / data.rate.length).toFixed(1));
 
   const handleRate = async () => {
     if (window.confirm('Вы уверены в своей оценке?')) {

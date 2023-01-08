@@ -6,12 +6,6 @@ export const fetchTags = createAsyncThunk('posts/fetchTags', async(cat)=>{
     return data;
 })
 
-
-export const fetchLikes = createAsyncThunk('posts/fetchLikes', async(id)=>{
-    const {data} = await axios.get(`/allLikes/${id}/get`);
-    return data;
-})
-
 export const fetchProfilePosts = createAsyncThunk('posts/fetchProfilePosts', async(userId)=>{
     const {data} = await axios.get(`/profile/${userId}`);
     return data;
@@ -23,7 +17,7 @@ export const fetchPostsByTags = createAsyncThunk('posts/fetchPostsByTags', async
 })
 
 export const fetchCategory = createAsyncThunk('posts/fetchCategory', async(el)=>{
-    const {data} = await axios.get(`/posts/${el}/categories`);
+    const {data} = await axios.get(`/posts/categories/${el.categories}?skip=${el.skip}`);
     return data;
 })
 
@@ -44,10 +38,7 @@ const initialState = {
         items: [],
         status: 'loading',
     },
-    likes: {
-        items: [],
-        status: 'loading'
-    }
+
 }
 
 const postSlice = createSlice({
@@ -67,19 +58,6 @@ const postSlice = createSlice({
         [fetchTags.rejected]: (state) => {
             state.tags.status = 'error';
             state.tags.items = [];
-        },
-
-        [fetchLikes.pending]: (state) => {
-            state.likes.status = 'loading';
-            state.likes.items = [];
-        },
-        [fetchLikes.fulfilled]: (state,action) => {
-            state.likes.status = 'loaded';
-            state.likes.items = action.payload;
-        },
-        [fetchLikes.rejected]: (state) => {
-            state.likes.status = 'error';
-            state.likes.items = [];
         },
 
         [fetchRemovePost.pending]: (state,action) => {

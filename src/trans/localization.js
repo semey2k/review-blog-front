@@ -46,6 +46,9 @@ export const translations = {
     save: 'Сохранить',
     setStatusAdmin: 'Выдать статус Админа',
     setStatusUser: 'Выдать статус Юзера',
+    validFullName: 'Укажите полное имя',
+    validEmail: 'Укажите почту',
+    validPassword: 'Укажите пароль',
   },
   en: {
     profile: 'My Posts',
@@ -55,7 +58,7 @@ export const translations = {
     tags: 'Tags',
     signIn: 'Sign In',
     signUp: 'Sign Up',
-    signInTitle: 'Login',
+    signInTitle: 'Log In',
     signUpTitle: 'Create An Account',
     password: 'Password',
     fullName: 'Full Name',
@@ -94,5 +97,10 @@ export const translations = {
     save: 'Save',
     setStatusAdmin: 'Set Admin Status',
     setStatusUser: 'Set User Status',
+    validFullName: 'Enter your fullname',
+    validEmail: 'Enter your email',
+    validPassword: 'Enter your password',
+
+
   },
 };

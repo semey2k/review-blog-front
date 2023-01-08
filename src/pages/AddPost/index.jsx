@@ -17,7 +17,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import { Autocomplete, Chip, Grid, IconButton } from '@mui/material';
 import MultiLingualContent, { ColorModeContext, LanguageContext } from '../../hooks/context';
-import { CloudinaryContext, Image, Transformation } from 'cloudinary-react';
+import { Image, Transformation } from 'cloudinary-react';
 
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -33,20 +33,16 @@ export const AddPost = () => {
   const [imageUrl, setImageUrl] = React.useState('');
   const inputFileRef = React.useRef(null);
   const [genres, setGenres] = React.useState('');
-  const [userRating, setUserRating] = React.useState('');
+  const [userRating, setUserRating] = React.useState(0);
   const [tags, setTags] = React.useState([]);
-  const [publicId, setPublicId] = React.useState();
-  const { language, getLocaleLanguage } = React.useContext(LanguageContext);
 
-  const [imageToRemove, setImageToRemove] = React.useState(null);
+  const {getLocaleLanguage} = React.useContext(LanguageContext)
 
-  console.log(imageUrl);
 
   function handleRemoving() {
     axios
       .delete(`/${imageUrl}`)
       .then(() => {
-        setPublicId(null);
         setImageUrl('');
       })
       .catch((e) => console.log(e));
@@ -102,7 +98,7 @@ export const AddPost = () => {
         tags,
         text,
         genres,
-        userRating,
+        userRating: Number(userRating),
         el,
         art,
       };
@@ -172,10 +168,6 @@ export const AddPost = () => {
             </div>
           ) : (
             <div style={{ position: 'relative' }} className={styles.img}>
-              {/* <Button variant="contained" color="error" onClick={() => handleRemoving(publicId)}>
-            Удалить
-          </Button> */}
-              {/* <img className={styles.image} src={imageUrl} alt="Uploaded" /> */}
               <Image className={styles.image} cloudName="dw0rsewtk" publicId={imageUrl}>
                 <Transformation width="300" height="410" crop="fill" />
               </Image>

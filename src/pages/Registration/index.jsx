@@ -1,32 +1,40 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { fetchRegister, selectIsAuth } from '../../redux/slices/auth';
+import MultiLingualContent from '../../hooks/context';
+import axios from '../../axios';
+
+import { Image, Transformation } from 'cloudinary-react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRegister, fetchUpdateUser, selectIsAuth } from '../../redux/slices/auth';
-import { useForm } from 'react-hook-form';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import MultiLingualContent from '../../hooks/context';
 import CloseIcon from '@mui/icons-material/Close';
-import styles from './Login.module.scss';
 import { IconButton } from '@mui/material';
-import axios from '../../axios';
-import { Image, Transformation } from 'cloudinary-react';
+
+import styles from './Login.module.scss';
 
 export const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const { id } = useParams();
-  const [avatarUrl, setAvatarUrl] = React.useState('');
-  const [publicId, setPublicId] = React.useState();
+  const [avatarUrl, setAvatarUrl] = React.useState('')
   const [fullName, setFullName] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [email, setEmail] = React.useState('');
   const navigate = useNavigate();
 
-  console.log(avatarUrl);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onSubmit',
+  });
 
   function handleRemoving(imgObj) {
     axios
@@ -52,8 +60,6 @@ export const Registration = () => {
     );
     myWidget.open();
   }
-
-  console.log(avatarUrl);
 
   const isEditing = Boolean(id);
 
@@ -81,7 +87,6 @@ export const Registration = () => {
     }
     const data = await dispatch(fetchRegister(values));
 
-    console.log(data)
     if (!data.payload) {
       return alert('Не удалось авторизоваться');
     }
@@ -118,7 +123,7 @@ export const Registration = () => {
           style={{ backgroundColor: 'transparent', border: 'none', cursor: 'pointer' }}
           onClick={() => handleOpenWidget()}>
           {!avatarUrl ? (
-            <Avatar sx={{ width: 100, height: 100 }} />
+            <Avatar sx={{ width: 100, height: 100, color: 'white' }} />
           ) : (
             <Image
               style={{ width: '100px', height: '100px', borderRadius: '100%' }}
@@ -142,36 +147,53 @@ export const Registration = () => {
           </IconButton>
         )}
       </div>
-
-      <TextField
-        color="outlined"
-        className={styles.field}
-        label={<MultiLingualContent contentID={'fullName'}></MultiLingualContent>}
-        fullWidth
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-      />
-      <TextField
-        color="outlined"
-        className={styles.field}
-        label="E-Mail"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-        fullWidth
-      />
-      {!isEditing && (
+      <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
           color="outlined"
-          onChange={(e) => setPassword(e.target.value)}
           className={styles.field}
-          label={<MultiLingualContent contentID={'password'}></MultiLingualContent>}
+          label={<MultiLingualContent contentID={'fullName'}></MultiLingualContent>}
           fullWidth
-          value={password}
+          error={Boolean(errors.fullName?.message)}
+          helperText={errors.fullName?.message}
+          {...register('fullName', {
+            required: <MultiLingualContent contentID={'validFullName'}></MultiLingualContent>,
+          })}
+          onChange={(e) => setFullName(e.target.value)}
+          value={fullName}
         />
-      )}
-      <Button onClick={onSubmit} type="submit" size="large" variant="contained" fullWidth>
-        {id ?<MultiLingualContent contentID={'save'}></MultiLingualContent>: <MultiLingualContent contentID={'signUp'}></MultiLingualContent>}
-      </Button>
+        <TextField
+          color="outlined"
+          className={styles.field}
+          label="E-Mail"
+          type="email"
+          error={Boolean(errors.email?.message)}
+          helperText={errors.email?.message}
+          {...register('email', { required: <MultiLingualContent contentID={'validEmail'}></MultiLingualContent> })}
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          fullWidth
+        />
+        {!isEditing && (
+          <TextField
+            color="outlined"
+            className={styles.field}
+            error={Boolean(errors.password?.message)}
+            helperText={errors.password?.message}
+            {...register('password', { required: <MultiLingualContent contentID={'validPassword'}></MultiLingualContent> })}
+            label={<MultiLingualContent contentID={'password'}></MultiLingualContent>}
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            fullWidth
+          />
+        )}
+        <Button onClick={onSubmit} type="submit" size="large" variant="contained" fullWidth>
+          {id ? (
+            <MultiLingualContent contentID={'save'}></MultiLingualContent>
+          ) : (
+            <MultiLingualContent contentID={'signUp'}></MultiLingualContent>
+          )}
+        </Button>
+      </form>
     </Paper>
   );
 };
