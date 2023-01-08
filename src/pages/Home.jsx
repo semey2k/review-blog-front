@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -20,24 +20,22 @@ export const Home = () => {
   const { getLocaleLanguage, language } = useContext(LanguageContext);
   const [skip, setSkip] = React.useState(1);
 
-
   const catEn = ['New', 'Popular', 'Games', 'Cinema', 'Books'];
   const catRu = ['Новое', 'Популярное', 'Игры', 'Фильмы', 'Книги'];
 
   const changeCategory = (id) => {
-    setCategories(catEn[id])
-    setSkip(1)
-  }
-
+    setCategories(catEn[id]);
+    setSkip(1);
+  };
 
   React.useEffect(() => {
     if (!query && !tagsId) {
       dispatch(fetchCategory({ categories, skip }));
       dispatch(fetchTags(categories));
     } else if (query) {
-      dispatch(fetchSearch(query));
+      dispatch(fetchSearch({ query, skip }));
     } else if (tagsId) {
-      dispatch(fetchPostsByTags(tagsId));
+      dispatch(fetchPostsByTags({ tagsId, skip }));
     }
   }, [categories, tagsId, query, skip]);
 
@@ -79,7 +77,7 @@ export const Home = () => {
           </ul>
         </div>
       )}
-      {posts?.items.length === 0 && !isPostsLoading ? (
+      {posts.items.posts?.length === 0 && !isPostsLoading ? (
         <Box
           sx={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div
@@ -135,7 +133,7 @@ export const Home = () => {
           variant="outlined"
           shape="rounded"
           onChange={handleChange}
-          sx={{paddingBottom: '20px'}}
+          sx={{ paddingBottom: '20px' }}
         />
       )}
     </>

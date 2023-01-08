@@ -11,8 +11,8 @@ export const fetchProfilePosts = createAsyncThunk('posts/fetchProfilePosts', asy
     return data;
 })
 
-export const fetchPostsByTags = createAsyncThunk('posts/fetchPostsByTags', async(tagsId)=>{
-    const {data} = await axios.get(`/posts/tags/${tagsId}`);
+export const fetchPostsByTags = createAsyncThunk('posts/fetchPostsByTags', async(el)=>{
+    const {data} = await axios.get(`/posts/tags/${el.tagsId}?skip=${el.skip}`);
     return data;
 })
 
@@ -21,8 +21,8 @@ export const fetchCategory = createAsyncThunk('posts/fetchCategory', async(el)=>
     return data;
 })
 
-export const fetchSearch = createAsyncThunk('posts/fetchSearch', async(query)=>{
-    const {data} = await axios.get(`/posts/search/${query}`);
+export const fetchSearch = createAsyncThunk('posts/fetchSearch', async(el)=>{
+    const {data} = await axios.get(`/posts/search/${el.query}?skip=${el.skip}`);
     return data;
 })
 

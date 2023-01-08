@@ -98,7 +98,7 @@ export const Login = () => {
       </form>
       <p className={styles.divider} style={{borderBottom: mode === 'dark' ? '1px solid #fff' : '1px solid rgba(0, 0, 0, 0.12)'}}><span style={{backgroundColor: mode === 'dark' ? '#001e3c' : '#fff'}}>Or</span></p>
       <LoginSocialFacebook
-        appId={process.env.REACT_APP_APP_ID || ''}
+        appId={'960026188758-c5cvt3o88gp0ndqgj07jtc0hl4h0u7ab.apps.googleusercontent.com' || ''}
         onResolve={({ response, data }) => {
           loginSocials(data);
         }}
@@ -108,7 +108,7 @@ export const Login = () => {
         <FacebookLoginButton style={{width: '100%', margin: '10px 0'}} />
       </LoginSocialFacebook>
       <LoginSocialGoogle
-        client_id={process.env.REACT_APP_CLIENT_ID}
+        client_id={'727664155553166'}
         onResolve={({ response, data }) => {
           loginSocials(data);
         }}
