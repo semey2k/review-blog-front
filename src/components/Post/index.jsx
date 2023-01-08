@@ -162,9 +162,7 @@ export const Post = ({
                         #{tag}
                       </Link>
                     ) : (
-                      <li key={index} className={styles.tag}>
-                        <p>#{tag}</p>
-                      </li>
+                      <p>#{tag}</p>
                     )}
                   </li>
                 ))}
