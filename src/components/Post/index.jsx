@@ -155,7 +155,17 @@ export const Post = ({
               <ul id={styles.tags}>
                 {tags.map((tag, index) => (
                   <li key={index} className={styles.tag}>
-                    <p>#{tag}</p>
+                    {isFullPost ? (
+                      <Link
+                        style={{ color: '#fff', textDecoration: 'none' }}
+                        to={`/posts/tags/${tag}`}>
+                        #{tag}
+                      </Link>
+                    ) : (
+                      <li key={index} className={styles.tag}>
+                        <p>#{tag}</p>
+                      </li>
+                    )}
                   </li>
                 ))}
               </ul>
