@@ -98,7 +98,7 @@ export const Login = () => {
       </form>
       <p className={styles.divider} style={{borderBottom: mode === 'dark' ? '1px solid #fff' : '1px solid rgba(0, 0, 0, 0.12)'}}><span style={{backgroundColor: mode === 'dark' ? '#001e3c' : '#fff'}}>Or</span></p>
       <LoginSocialFacebook
-        appId={process.env.REACT_APP_CLIENT_ID || ''}
+        appId={process.env.REACT_APP_APP_ID || ''}
         onResolve={({ response, data }) => {
           loginSocials(data);
         }}
