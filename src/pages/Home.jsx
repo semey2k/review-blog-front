@@ -52,7 +52,7 @@ export const Home = () => {
         <div
           className={styles.categories}
           style={{
-            marginBottom: 60 /* backgroundColor: mode === 'dark' ? '#f9f9f9' :'#f9f9f9'  */,
+            marginBottom: 60 ,
           }}>
           <ul>
             {((getLocaleLanguage ? getLocaleLanguage : language) === 'en' ? catEn : catRu).map(
@@ -60,7 +60,6 @@ export const Home = () => {
                 <li
                   key={id}
                   onClick={() => changeCategory(id)}
-                  // color='primary'
                   style={
                     catEn[id] === categories
                       ? {

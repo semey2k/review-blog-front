@@ -36,7 +36,7 @@ export const Registration = () => {
     mode: 'onSubmit',
   });
 
-  function handleRemoving(imgObj) {
+  function handleRemoving() {
     axios
       .delete(`/${avatarUrl}`)
       .then(() => {

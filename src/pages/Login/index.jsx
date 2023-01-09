@@ -79,7 +79,7 @@ export const Login = () => {
           color="outlined"
           error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
-          {...register('email', { required: 'Укажите почту' })}
+          {...register('email', { required: <MultiLingualContent contentID={'validEmail'}></MultiLingualContent> })}
           fullWidth
         />
         <TextField
@@ -88,7 +88,7 @@ export const Login = () => {
           color="outlined"
           helperText={errors.password?.message}
           type="password"
-          {...register('password', { required: 'Укажите пароль' })}
+          {...register('password', { required: <MultiLingualContent contentID={'validPassword'}></MultiLingualContent> })}
           label={<MultiLingualContent contentID={'password'}></MultiLingualContent>}
           fullWidth
         />

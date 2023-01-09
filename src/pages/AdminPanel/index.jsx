@@ -59,13 +59,13 @@ export const AdminPanel = () => {
   };
 
   const onClickAdmin = () => {
-    if (window.confirm('Вы действительно хотите заблокировать пользователя?')) {
+    if (window.confirm('Вы действительно хотите добавить статус админа?')) {
       selectedRows.forEach((el) => dispatch(fetchStatusAdmin(el)));
     }
   };
 
   const onClickUser = () => {
-    if (window.confirm('Вы действительно хотите удалить пользователя?')) {
+    if (window.confirm('Вы действительно хотите убрать стату админа?')) {
       selectedRows.forEach((el) => dispatch(fetchStatusUser(el)));
     }
   };

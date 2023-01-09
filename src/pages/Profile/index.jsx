@@ -65,16 +65,12 @@ const columns = [
 
 export const Profile = () => {
   const dispatch = useDispatch();
-  //   const { posts } = useSelector((state) => state.posts);
   const { id } = useParams();
   const userId = useSelector((action) => action.auth.data);
   const { posts } = useSelector((state) => state.posts);
   const [selectedRows, setSelectedRows] = React.useState([]);
 
   const {mode} = React.useContext(ColorModeContext)
-
-  //   const isAuth = useSelector(selectIsAuth);
-  //   const isAuthMe = useSelector(authMe);
 
   const isPostsLoading = posts.status === 'loading';
   React.useEffect(() => {
